@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Piano dynamics — Krishiv Singhal</title>
-<link rel="stylesheet" href="../style.css?v=20261024">
-<script src="config.js?v=20261024"></script>
+<link rel="stylesheet" href="../style.css?v=20261026">
+<script src="config.js?v=20261026"></script>
 
 <style>
 .piano-page{max-width:920px;margin:0 auto;padding:2rem 0 3rem}
@@ -128,9 +128,17 @@ const tip=document.getElementById("tip");
 const root=document.getElementById("pieces");
 const lanes=[];
 PIECES.forEach(piece=>{
-  let t1=0, lo=127, hi=0;
-  piece.lanes.forEach(lane=>lane.notes.forEach(n=>{t1=Math.max(t1,n[1]+n[2]); lo=Math.min(lo,n[0]); hi=Math.max(hi,n[0]);}));
-  piece.t1=Math.max(t1,.1); piece.lo=lo; piece.hi=hi;
+  let lo=127, hi=0;
+  piece.lanes.forEach(lane=>{
+    let t0=Infinity, t1=0;
+    lane.notes.forEach(n=>{
+      t0=Math.min(t0,n[1]); t1=Math.max(t1,n[1]+n[2]);
+      lo=Math.min(lo,n[0]); hi=Math.max(hi,n[0]);
+    });
+    lane.t0=t0===Infinity?0:t0;
+    lane.t1=Math.max(t1-lane.t0,.1);
+  });
+  piece.lo=lo; piece.hi=hi;
   const section=document.createElement("section");
   section.className="piece";
   section.innerHTML="<h3>"+piece.title+"</h3><p>"+piece.blurb+"</p>";
@@ -145,27 +153,32 @@ PIECES.forEach(piece=>{
     row.querySelector("canvas");
     const inner=row.querySelector(".roll-inner");
     lanes.push({piece,lane,audio,canvas:row.querySelector("canvas"),playhead:row.querySelector(".playhead"),inner,wrap:row.querySelector(".roll-wrap"),row,dirty:true});
+    const wrap=row.querySelector(".roll-wrap");
     audio.addEventListener("play",()=>{
       document.querySelectorAll("audio").forEach(o=>{if(o!==audio) o.pause();});
       document.querySelectorAll(".lane").forEach(el=>el.classList.remove("playing"));
       row.classList.add("playing");
+      if(wrap) wrap.scrollLeft=0;
     });
     section.appendChild(row);
   });
   root.appendChild(section);
 });
-function layout(canvas,piece){
-  const view=(canvas.parentElement&&canvas.parentElement.clientWidth)||600;
-  const xScale=Math.max((view-62)/piece.t1,34);
-  const w=Math.ceil(62+piece.t1*xScale);
+function layout(canvas,entry){
+  const piece=entry.piece, lane=entry.lane;
+  const view=(canvas.parentElement&&canvas.parentElement.parentElement&&canvas.parentElement.parentElement.clientWidth)||600;
+  const tSpan=lane.t1;
+  const xScale=Math.max((view-16)/tSpan,28);
+  const padL=4, padR=8;
+  const w=Math.ceil(padL+padR+tSpan*xScale);
   const dpr=w>2400?1:Math.min(window.devicePixelRatio||1,2);
   const span=piece.hi-piece.lo+1;
   const row=Math.max(9,Math.min(13,640/span));
   const h=Math.ceil(span*row+16);
-  return {dpr,w,h,padL:46,padR:10,padT:6,row,x:xScale};
+  return {dpr,w,h,padL,padR,padT:6,row,x:xScale,t0:lane.t0,tSpan};
 }
 function paintStatic(entry){
-  const g=layout(entry.canvas,entry.piece);
+  const g=layout(entry.canvas,entry);
   const pw=Math.floor(g.w*g.dpr), ph=Math.floor(g.h*g.dpr);
   entry.canvas.style.width=g.w+"px"; entry.canvas.style.height=g.h+"px";
   if(entry.inner) entry.inner.style.width=g.w+"px";
@@ -176,14 +189,14 @@ function paintStatic(entry){
     ctx.setTransform(g.dpr,0,0,g.dpr,0,0);
     ctx.fillStyle="#fff"; ctx.fillRect(0,0,g.w,g.h);
     ctx.strokeStyle="#efe4d4"; ctx.fillStyle="#8a7b68"; ctx.font="12px Georgia, serif";
-    const step=entry.piece.t1>90?15:5;
-    for(let s=0;s<=entry.piece.t1;s+=step){
+    const step=g.tSpan>90?15:5;
+    for(let s=0;s<=g.tSpan;s+=step){
       const x=g.padL+s*g.x;
       ctx.beginPath(); ctx.moveTo(x,g.padT); ctx.lineTo(x,g.h-2); ctx.stroke();
-      if(s%step===0){ctx.fillText(s+"s",x+2,g.padT+10);}
+      if(s%step===0){ctx.fillText((s+g.t0).toFixed(0)+"s",x+2,g.padT+10);}
     }
     entry.lane.notes.forEach(n=>{
-      const x=g.padL+n[1]*g.x, w=Math.max(3,n[2]*g.x), y=g.padT+(entry.piece.hi-n[0])*g.row;
+      const x=g.padL+(n[1]-g.t0)*g.x, w=Math.max(3,n[2]*g.x), y=g.padT+(entry.piece.hi-n[0])*g.row;
       ctx.fillStyle=velColor(n[3]); ctx.fillRect(x,y,w,g.row-1);
     });
     entry.layer=layer; entry.geom=g;
@@ -198,8 +211,8 @@ function tick(){
   lanes.forEach(entry=>{
     if(entry.dirty) paintStatic(entry);
     if(entry.audio.paused) return;
-    const g=entry.geom, t=entry.audio.currentTime;
-    const x=g.padL+t*g.x;
+    const g=entry.geom, t=entry.audio.currentTime-g.t0;
+    const x=g.padL+Math.max(0,t)*g.x;
     entry.playhead.style.display="block";
     entry.playhead.style.left=x+"px";
     if(entry.wrap){
@@ -210,11 +223,11 @@ function tick(){
   });
   requestAnimationFrame(tick);
 }
-function hover(ev,canvas,piece,lane){
-  const g=layout(canvas,piece);
+function hover(ev,canvas,entry){
+  const g=layout(canvas,entry), piece=entry.piece, lane=entry.lane;
   const rect=canvas.getBoundingClientRect();
   const x=(ev.clientX-rect.left), y=(ev.clientY-rect.top);
-  const t=(x-g.padL)/g.x, pitch=piece.hi-Math.floor((y-g.padT)/g.row);
+  const t=(x-g.padL)/g.x+g.t0, pitch=piece.hi-Math.floor((y-g.padT)/g.row);
   let hit=null, best=1e9;
   lane.notes.forEach(n=>{
     if(n[0]!==pitch||t<n[1]||t>n[1]+n[2]) return;
@@ -226,7 +239,7 @@ function hover(ev,canvas,piece,lane){
   tip.textContent=pitchName(hit[0])+" · vel "+hit[3];
 }
 lanes.forEach(entry=>{
-  entry.canvas.addEventListener("mousemove",ev=>hover(ev,entry.canvas,entry.piece,entry.lane));
+  entry.canvas.addEventListener("mousemove",ev=>hover(ev,entry.canvas,entry));
   entry.canvas.addEventListener("mouseleave",()=>{tip.style.display="none";});
 });
 window.addEventListener("resize",()=>lanes.forEach(e=>{e.dirty=true;}));

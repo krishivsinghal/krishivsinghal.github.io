@@ -3,23 +3,72 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Projects — Krishiv Singhal</title>
-  <meta name="description" content="A piano model trained on 678 performances, a personal language model, and the Bitewise Labs apps, built by Krishiv Singhal.">
-  <meta name="theme-color" content="#f7f5f0">
+  <meta name="description" content="Piano dynamics model, a personal language model, and Bitewise Labs apps.">
+  <meta name="theme-color" content="#fbf8f0">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23232b35' d='M16 2 29 9v14l-13 7L3 23V9z'/%3E%3Cpath fill='%23c8cdd3' d='m16 3 12 7-12 7L4 10z'/%3E%3Cpath fill='%23818c99' d='m4 11 11 7v11L4 23z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=20261025"><script src="script.js?v=20261025" defer></script>
+  <link rel="stylesheet" href="style.css?v=20261026"><script src="script.js?v=20261026" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="shell">
   <header><a class="monogram" href="index.html" aria-label="Krishiv Singhal, home">ks<span>.</span></a><nav aria-label="Main navigation"><a href="index.html">Home</a><a href="research.html">Research</a><a href="projects.html" aria-current="page">Projects</a><a href="mailto:ksinghal@andrew.cmu.edu">Say hello <span aria-hidden="true">↗</span></a></nav><button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark theme" hidden><span aria-hidden="true">◐</span></button></header>
   <main id="main">
-    <section class="page-intro"><h1>Projects</h1><p>Some things I’ve built: a piano model you can listen to, a language model trained on a personal reading list, and apps that bring literature, art, and architecture to a small screen.</p></section>
-    <section class="work" aria-label="Selected projects">
-      <article class="project" id="piano"><div class="project-art"><svg data-voxel="piano" viewBox="0 0 240 180" aria-hidden="true"></svg><span>01 / PIANO</span></div><div class="project-copy"><div class="project-meta">PERFORMANCE · PYTORCH <span>Listening page</span></div><h2>Dynamics learned from 678 performances</h2><p>A diffusion model trained on aligned classical performances. It adjusts velocity only. Upload a flat piano MIDI from notation software and download a humanized version, or listen to fixed examples beside a mechanical score and a human reference.</p><p class="quiet">Pitch and timing are unchanged; the model only rewrites key velocity. Classical piano scores work best.</p><div class="inline-links"><a class="text-link" href="piano/index.html">Listen &amp; try MIDI <span aria-hidden="true">↗</span></a></div><details><summary aria-label="Read project notes for the piano model">Read project notes <span aria-hidden="true">+</span></summary><div class="notes"><h3>What is on the page</h3><p>Perpetuity runs from the first note to the last, 1,680 notes. The other pieces open from the first bar: Chopin’s Nocturne in B-flat minor, Op. 9 No. 1, Chopin’s Etude Op. 10 No. 3, and Liszt’s Transcendental Etude No. 3, “Paysage.”</p><h3>The model</h3><p>It is a 684,000-parameter diffusion transformer: four layers, rotary embeddings, and SwiGLU, sampled for 200 steps. The performances are the aligned classical recordings in the (n)ASAP collection, across 155 pieces.</p></div></details></div></article>
-      <article class="project" id="language-model"><div class="project-art"><svg data-voxel="books" viewBox="0 0 240 180" aria-hidden="true"></svg><span>02 / LANGUAGE</span></div><div class="project-copy"><div class="project-meta">LANGUAGE MODELLING · PYTORCH <span>Built from scratch</span></div><h2>A language model with a personal reading list</h2><p>I built a small language model to capture something of my intellectual profile, training it on thinkers and writers I enjoy: Russell, Bourdieu, Hofstadter, and Wilde, alongside my own essays. It’s a 25-million-parameter Llama-style model, built from scratch in PyTorch and trained on 1,941 books and essays.</p><p class="quiet">Chat with the model — coming soon.</p><details><summary aria-label="Read project notes for the language model">Read project notes <span aria-hidden="true">+</span></summary><div class="notes"><h3>Inside the implementation</h3><p>The model brings together byte-pair encoding, rotary position embeddings, grouped-query attention, RMSNorm, SwiGLU, and AdamW. Training used 212 million tokens drawn from books and essays.</p><h3>From text to transformer</h3><p>This project follows the language-model pipeline all the way from the choice of text to the mechanics of a transformer. Its scale makes the components tangible: the tokenizer, architecture, and training corpus are parts of the same system.</p></div></details></div></article>
-      <article class="project" id="bites-suite"><div class="project-art"><svg data-voxel="museum" viewBox="0 0 240 180" aria-hidden="true"></svg><span>03 / BUILDING</span></div><div class="project-copy"><div class="project-meta">BITEWISE LABS · SWIFTUI & METAL <span>Three shipped apps</span></div><h2>A little more room for culture</h2><p>I founded Bitewise Labs and built Literature Bites, Art Bites, and Architecture Bites: a suite of iOS apps for cultural education. Alongside the apps, I built automated video and 3D monument-rendering pipelines.</p><details><summary aria-label="Read project notes for Bitewise Labs">Read project notes <span aria-hidden="true">+</span></summary><div class="notes"><h3>From content to a working product</h3><p>The suite brings literature, art, and architecture into three focused apps. The engineering spans the native SwiftUI experience, Metal, and the tools that produce visual content for the apps.</p><h3>Bringing the pieces together</h3><p>The three released apps bring together native software and educational content. The automated pipelines support the ongoing work of creating videos and rendering architectural models.</p><a class="text-link" href="https://bites-suite-website.vercel.app/">Visit Bites Suite <span aria-hidden="true">↗</span></a></div></details></div></article>
+    <section class="page-intro"><h1>Projects</h1><p>Three threads I keep coming back to: expressive piano, text, and small cultural apps.</p></section>
+
+    <section class="project-cards" aria-label="Selected projects">
+
+      <article class="project-card project-card--piano" id="piano">
+        <div class="project-card__aside" aria-hidden="true"><svg data-voxel="piano" viewBox="0 0 240 180"></svg></div>
+        <div class="project-card__body">
+          <p class="project-card__tag">Piano · listening page</p>
+          <h2>Dynamics from real performances</h2>
+          <p>A diffusion model trained on hundreds of aligned classical recordings. It learns how pianists shape <em>volume</em> while leaving pitch and rhythm alone.</p>
+          <p class="project-card__hint">Listen to examples, compare mechanical vs humanized scores, and upload your own flat MIDI when the API is connected.</p>
+          <a class="text-link" href="piano/index.html">Open the piano page <span aria-hidden="true">↗</span></a>
+          <details class="project-card__notes">
+            <summary>Technical notes <span aria-hidden="true">+</span></summary>
+            <div class="notes">
+              <p>Examples include an original piece (Perpetuity) and openings of Chopin and Liszt works. The model is a compact diffusion transformer on (n)ASAP velocity alignments.</p>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="project-card project-card--language" id="language-model">
+        <div class="project-card__aside" aria-hidden="true"><svg data-voxel="books" viewBox="0 0 240 180"></svg></div>
+        <div class="project-card__body">
+          <p class="project-card__tag">Language · PyTorch</p>
+          <h2>A model shaped by my reading</h2>
+          <p>A small Llama-style transformer trained from scratch on books and essays I care about — Russell, Bourdieu, Hofstadter, Wilde, and my own writing.</p>
+          <p class="project-card__hint">Interactive chat is still on the way.</p>
+          <details class="project-card__notes">
+            <summary>Technical notes <span aria-hidden="true">+</span></summary>
+            <div class="notes">
+              <p>~25M parameters, BPE tokenizer, RoPE, GQA, RMSNorm, SwiGLU. Trained on roughly 212M tokens from 1,941 texts.</p>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="project-card project-card--apps" id="bites-suite">
+        <div class="project-card__aside" aria-hidden="true"><svg data-voxel="museum" viewBox="0 0 240 180"></svg></div>
+        <div class="project-card__body">
+          <p class="project-card__tag">Bitewise Labs · iOS</p>
+          <h2>Culture in small doses</h2>
+          <p>Literature Bites, Art Bites, and Architecture Bites — three native apps for learning on a phone, plus pipelines that generate video and 3D monument renders.</p>
+          <a class="text-link" href="https://bites-suite-website.vercel.app/">Visit Bitewise <span aria-hidden="true">↗</span></a>
+          <details class="project-card__notes">
+            <summary>Technical notes <span aria-hidden="true">+</span></summary>
+            <div class="notes">
+              <p>SwiftUI and Metal on device; content tooling off-device for repeatable visuals.</p>
+            </div>
+          </details>
+        </div>
+      </article>
+
     </section>
-    <nav class="page-nav" aria-label="Continue exploring"><a class="text-link" href="research.html">← Explore my research</a><a class="text-link" href="index.html#about">A little about me →</a></nav>
+
+    <nav class="page-nav" aria-label="Continue exploring"><a class="text-link" href="research.html">← Research</a><a class="text-link" href="index.html#about">About me →</a></nav>
   </main>
   <footer><span>© 2026 Krishiv Singhal</span><a href="https://github.com/krishivsinghal">GitHub ↗</a><a href="mailto:ksinghal@andrew.cmu.edu">Email ↗</a><a href="#main">Back to top ↑</a></footer>
 </div>

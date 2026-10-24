@@ -1,7 +1,7 @@
 // Orthographic voxels: small, deterministic SVG geometry, without a 3D runtime.
 (() => {
   const NS = 'http://www.w3.org/2000/svg';
-  const palettes = { light: ['#eee9dd','#d4d7d8','#c4bdb4'], medium: ['#d4c8bc','#a89888','#6e6258'], dark: ['#5a5652','#3d3a37','#2a2520'] };
+  const palettes = { light: ['#f0e6dc','#d8dde8','#c9bdb0'], medium: ['#e0cbb8','#9eb5c9','#8b735f'], dark: ['#c4785a','#5a7a9a','#4a4038'] };
   function polygon(points, fill) {
     const p = document.createElementNS(NS, 'polygon');
     p.setAttribute('points', points.map(v => v.join(',')).join(' '));
