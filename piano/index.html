@@ -4,36 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Piano dynamics — Krishiv Singhal</title>
-<link rel="stylesheet" href="../style.css?v=20261025">
-<script src="config.js?v=20261025"></script>
+<link rel="stylesheet" href="../style.css?v=20261024">
+<script src="config.js?v=20261024"></script>
 
 <style>
 .piano-page{max-width:920px;margin:0 auto;padding:2rem 0 3rem}
-.piano-page h1{font-family:Georgia,serif;font-size:2.4rem;font-weight:400;color:var(--accent,#1a1a1c);margin:0 0 .75rem}
-.piano-page .lead{color:var(--muted,#5f5c58);font-size:1rem;line-height:1.7;margin:0 0 1rem}
-.upload{background:var(--tint,#eceae4);border:1px solid var(--line,#ddd9d2);border-radius:5px;padding:1.1rem 1.2rem;margin:0 0 1.5rem}
-.upload h2{font-family:Georgia,serif;font-size:1.25rem;margin:0 0 .5rem;color:var(--ink,#1a1a1c)}
+.piano-page h1{font-family:Georgia,serif;font-size:2.4rem;font-weight:400;color:var(--accent,#315f87);margin:0 0 .75rem}
+.piano-page .lead{color:var(--muted,#5f6c79);font-size:1rem;line-height:1.7;margin:0 0 1rem}
+.upload{background:var(--tint,#eef3f7);border:1px solid var(--line,#d9dee5);border-radius:5px;padding:1.1rem 1.2rem;margin:0 0 1.5rem}
+.upload h2{font-family:Georgia,serif;font-size:1.25rem;margin:0 0 .5rem;color:var(--ink,#202b38)}
 .upload input[type=file]{display:block;margin:.35rem 0 .6rem;font-size:.9rem}
-.upload button{padding:.5rem 1rem;font:inherit;border:0;border-radius:4px;background:var(--accent,#1a1a1c);color:#f7f5f0;cursor:pointer}
-:root[data-theme=dark] .upload button{color:#1a1a1c}
+.upload button{padding:.5rem 1rem;font:inherit;border:0;border-radius:4px;background:var(--accent,#315f87);color:#fff;cursor:pointer}
 .upload button:disabled{opacity:.5;cursor:not-allowed}
-.status{font-size:.9rem;color:var(--muted,#5f5c58);min-height:1.25rem;margin-top:.45rem}
-.restrictions{font-size:.85rem;color:var(--muted,#5f5c58);margin:.75rem 0 0;padding-left:1.15rem}
+.status{font-size:.9rem;color:var(--muted,#5f6c79);min-height:1.25rem;margin-top:.45rem}
+.restrictions{font-size:.85rem;color:var(--muted,#5f6c79);margin:.75rem 0 0;padding-left:1.15rem}
 .restrictions li{margin:.25rem 0}
-.examples h2{font-family:Georgia,serif;font-size:1.35rem;margin:0 0 .35rem;color:var(--accent,#1a1a1c)}
-.examples>p{color:var(--muted,#5f5c58);font-size:.95rem;margin:0 0 .75rem}
-.legend{display:flex;align-items:center;gap:.5rem;margin:.4rem 0 .9rem;font-size:.88rem;color:var(--muted,#5f5c58)}
+.examples h2{font-family:Georgia,serif;font-size:1.35rem;margin:0 0 .35rem;color:var(--accent,#315f87)}
+.examples>p{color:var(--muted,#5f6c79);font-size:.95rem;margin:0 0 .75rem}
+.legend{display:flex;align-items:center;gap:.5rem;margin:.4rem 0 .9rem;font-size:.88rem;color:var(--muted,#5f6c79)}
 .legend canvas{width:12rem;height:.75rem;border:1px solid var(--line,#d9dee5);border-radius:2px}
 .piece{border-top:1px solid var(--line,#d9dee5);padding:1rem 0 .35rem}
 .piece h3{font-family:Georgia,serif;font-size:1.15rem;margin:0 0 .25rem}
-.piece>p{font-size:.9rem;color:var(--muted,#5f5c58);margin:0 0 .5rem;max-width:40rem}
+.piece>p{font-size:.9rem;color:var(--muted,#5f6c79);margin:0 0 .5rem;max-width:40rem}
 .lane{margin:.45rem 0 .65rem}
 .meta{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;font-size:.9rem}
 .meta .name{min-width:7rem;font-weight:600}
 audio{flex:1;min-width:12rem;height:2rem}
-.roll-wrap{position:relative;overflow-x:auto;border:1px solid var(--line,#d9dee5);border-radius:4px;background:#fff;margin-top:.35rem}
+.roll-wrap{overflow-x:auto;border:1px solid var(--line,#d9dee5);border-radius:4px;background:#fff;margin-top:.35rem}
+.roll-inner{position:relative;display:inline-block;vertical-align:top}
 canvas.roll{display:block;background:#fff;cursor:crosshair}
-.playhead{position:absolute;top:0;bottom:0;width:1px;background:var(--ink,#202b38);display:none;pointer-events:none}
+.playhead{position:absolute;top:0;bottom:0;width:1px;background:var(--ink,#202b38);display:none;pointer-events:none;left:0}
 #tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink,#202b38);color:var(--paper,#fbf8f0);padding:.2rem .45rem;border-radius:3px;font:12px/1.3 Georgia,serif;display:none}
 </style>
 </head>
@@ -140,10 +140,11 @@ PIECES.forEach(piece=>{
     row.innerHTML="<div class='meta'><div class='name'>"+lane.label+"</div>"+
       "<audio controls preload='metadata' src='"+lane.wav+"'></audio>"+
       "<a href='"+lane.mid+"'>MIDI</a></div>"+
-      "<div class='roll-wrap'><canvas class='roll'></canvas><div class='playhead'></div></div>";
+      "<div class='roll-wrap'><div class='roll-inner'><canvas class='roll'></canvas><div class='playhead'></div></div></div>";
     const audio=row.querySelector("audio");
     row.querySelector("canvas");
-    lanes.push({piece,lane,audio,canvas:row.querySelector("canvas"),playhead:row.querySelector(".playhead"),row,dirty:true});
+    const inner=row.querySelector(".roll-inner");
+    lanes.push({piece,lane,audio,canvas:row.querySelector("canvas"),playhead:row.querySelector(".playhead"),inner,wrap:row.querySelector(".roll-wrap"),row,dirty:true});
     audio.addEventListener("play",()=>{
       document.querySelectorAll("audio").forEach(o=>{if(o!==audio) o.pause();});
       document.querySelectorAll(".lane").forEach(el=>el.classList.remove("playing"));
@@ -167,6 +168,7 @@ function paintStatic(entry){
   const g=layout(entry.canvas,entry.piece);
   const pw=Math.floor(g.w*g.dpr), ph=Math.floor(g.h*g.dpr);
   entry.canvas.style.width=g.w+"px"; entry.canvas.style.height=g.h+"px";
+  if(entry.inner) entry.inner.style.width=g.w+"px";
   if(!entry.layer||entry.layer.width!==pw||entry.layer.height!==ph){
     const layer=document.createElement("canvas");
     layer.width=pw; layer.height=ph;
@@ -199,7 +201,12 @@ function tick(){
     const g=entry.geom, t=entry.audio.currentTime;
     const x=g.padL+t*g.x;
     entry.playhead.style.display="block";
-    entry.playhead.style.left=(x/g.w*100)+"%";
+    entry.playhead.style.left=x+"px";
+    if(entry.wrap){
+      const margin=48, max=entry.wrap.scrollWidth-entry.wrap.clientWidth;
+      const target=Math.max(0,Math.min(x-margin, max));
+      if(Math.abs(entry.wrap.scrollLeft-target)>2) entry.wrap.scrollLeft=target;
+    }
   });
   requestAnimationFrame(tick);
 }
