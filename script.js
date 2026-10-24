@@ -1,7 +1,7 @@
 // Orthographic voxels: small, deterministic SVG geometry, without a 3D runtime.
 (() => {
   const NS = 'http://www.w3.org/2000/svg';
-  const palettes = { light: ['#eee9dd','#d4d7d8','#adb9c4'], medium: ['#b9ccdc','#8eabc4','#6586a4'], dark: ['#718fa9','#4c6e8c','#31516e'] };
+  const palettes = { light: ['#eee9dd','#d4d0c8','#b8b4ac'], medium: ['#c9c4bb','#9a9590','#6e6a65'], dark: ['#5a5652','#3d3a37','#252422'] };
   function polygon(points, fill) {
     const p = document.createElementNS(NS, 'polygon');
     p.setAttribute('points', points.map(v => v.join(',')).join(' '));
@@ -36,7 +36,7 @@
       return [x,y,z,tone];
     });
     draw(world,rotated,23,[203,112]);
-    world.setAttribute('aria-label', 'An abstract landscape of grey, blue and cream cubes, viewed at '+(turns*90)+' degrees');
+    world.setAttribute('aria-label', 'An abstract landscape of cream and charcoal cubes, viewed at '+(turns*90)+' degrees');
   }
   renderWorld();
   const turnButton = document.querySelector('[data-world-turn]');
