@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Bitewise crystal mark">
+  <defs>
+    <linearGradient id="gilt" x1="18" y1="10" x2="82" y2="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E8C96A"/>
+      <stop offset="45%" stop-color="#C9A44C"/>
+      <stop offset="100%" stop-color="#8A6B2A"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#gilt)" stroke="#5C4A1E" stroke-width="1.2" stroke-linejoin="round"
+        d="M50 8 84 38 50 92 16 38Z"/>
+  <path fill="none" stroke="#F5E6BC" stroke-width=".9" opacity=".85"
+        d="M16 38 H84 M50 8 V92 M30 38 L50 8 M70 38 L50 8 M30 38 L50 92 M70 38 L50 92"/>
+</svg>

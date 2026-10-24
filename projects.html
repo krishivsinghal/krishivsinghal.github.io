@@ -3,64 +3,92 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Projects — Krishiv Singhal</title>
-  <meta name="description" content="Piano dynamics model, a personal language model, and Bitewise Labs apps.">
+  <meta name="description" content="MIDI humanization, Bitewise production apps, a reading-list language model, and FrameLearner.">
   <meta name="theme-color" content="#fbf8f0">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23232b35' d='M16 2 29 9v14l-13 7L3 23V9z'/%3E%3Cpath fill='%23c8cdd3' d='m16 3 12 7-12 7L4 10z'/%3E%3Cpath fill='%23818c99' d='m4 11 11 7v11L4 23z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=20261026"><script src="script.js?v=20261026" defer></script>
+  <link rel="stylesheet" href="style.css?v=20261027b"><script src="script.js?v=20261027b" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="shell">
   <header><a class="monogram" href="index.html" aria-label="Krishiv Singhal, home">ks<span>.</span></a><nav aria-label="Main navigation"><a href="index.html">Home</a><a href="research.html">Research</a><a href="projects.html" aria-current="page">Projects</a><a href="mailto:ksinghal@andrew.cmu.edu">Say hello <span aria-hidden="true">↗</span></a></nav><button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark theme" hidden><span aria-hidden="true">◐</span></button></header>
   <main id="main">
-    <section class="page-intro"><h1>Projects</h1><p>Three threads I keep coming back to: expressive piano, text, and small cultural apps.</p></section>
+    <section class="page-intro"><h1>Projects</h1></section>
 
-    <section class="project-cards" aria-label="Selected projects">
+    <section class="work" aria-label="Selected projects">
 
-      <article class="project-card project-card--piano" id="piano">
-        <div class="project-card__aside" aria-hidden="true"><svg data-voxel="piano" viewBox="0 0 240 180"></svg></div>
-        <div class="project-card__body">
-          <p class="project-card__tag">Piano · listening page</p>
-          <h2>Dynamics from real performances</h2>
-          <p>A diffusion model trained on hundreds of aligned classical recordings. It learns how pianists shape <em>volume</em> while leaving pitch and rhythm alone.</p>
-          <p class="project-card__hint">Listen to examples, compare mechanical vs humanized scores, and upload your own flat MIDI when the API is connected.</p>
-          <a class="text-link" href="piano/index.html">Open the piano page <span aria-hidden="true">↗</span></a>
-          <details class="project-card__notes">
+      <article class="project" id="midi-humanization">
+        <div class="project-art project-art--img">
+          <img src="assets/projects/midi-roll-preview.svg" width="190" height="127" alt="" loading="lazy">
+        </div>
+        <div class="project-copy">
+          <div class="project-meta">PYTORCH · DIFFUSION · MIDI</div>
+          <h2>MIDI Humanization — Diffusion Transformer</h2>
+          <p>When I compose, I usually notate in MuseScore — but exported MIDI often sounds flat. Human pianists shape dynamics, accent, and colour even when the notes on the page stay fixed. This project learns that expressive layer from real performances.</p>
+          <p>A compact diffusion transformer (about 685k parameters: four layers, RoPE, SwiGLU) is trained on <strong>678</strong> aligned classical recordings from corrected (n)ASAP-style alignments. At inference it rewrites <em>velocity only</em>; pitch and timing stay untouched. Sampling uses a 200-step DDPM denoiser in PyTorch.</p>
+          <a class="text-link" href="piano/index.html">Listen &amp; compare on the piano page <span aria-hidden="true">↗</span></a>
+          <details>
             <summary>Technical notes <span aria-hidden="true">+</span></summary>
             <div class="notes">
-              <p>Examples include an original piece (Perpetuity) and openings of Chopin and Liszt works. The model is a compact diffusion transformer on (n)ASAP velocity alignments.</p>
+              <p>Public demo focuses on the velocity-only checkpoint (~2.6&nbsp;MB). Examples include an original piece (Perpetuity) and openings of Chopin and Liszt works. Upload your own flat MIDI when the hosted API is connected.</p>
             </div>
           </details>
         </div>
       </article>
 
-      <article class="project-card project-card--language" id="language-model">
-        <div class="project-card__aside" aria-hidden="true"><svg data-voxel="books" viewBox="0 0 240 180"></svg></div>
-        <div class="project-card__body">
-          <p class="project-card__tag">Language · PyTorch</p>
-          <h2>A model shaped by my reading</h2>
-          <p>A small Llama-style transformer trained from scratch on books and essays I care about — Russell, Bourdieu, Hofstadter, Wilde, and my own writing.</p>
-          <p class="project-card__hint">Interactive chat is still on the way.</p>
-          <details class="project-card__notes">
+      <article class="project" id="bitewise">
+        <div class="project-art project-art--img">
+          <img src="assets/projects/bitewise-mark.svg" width="100" height="100" alt="" loading="lazy">
+        </div>
+        <div class="project-copy">
+          <div class="project-meta">BITEWISE · IOS · PRODUCTION</div>
+          <h2>Bitewise: Production Apps</h2>
+          <p>I built a small studio to bring literature, art, architecture, and scripture off the pedestal and onto a phone. The mission is simple: culture should be democratised — not reserved for people who happened to grow up inside museums and reading rooms.</p>
+          <p><strong>Literature Bites</strong>, <strong>Art Bites</strong>, <strong>Architecture Bites</strong>, and <strong>Scripture Bites</strong> are native SwiftUI apps with on-device Metal rendering. Behind them is a content pipeline that turns curated sources into short-form video, illustrated cards, and 3D monument renders — so each bite feels alive rather than like a slideshow.</p>
+          <p>The library currently spans <strong>2,323</strong> quotations, <strong>985</strong> artworks, and <strong>641</strong> buildings (and growing). The suite has passed <strong>2,000+ downloads</strong> and is still climbing.</p>
+          <a class="text-link" href="https://bites-suite-website.vercel.app/">Visit the Bitewise site <span aria-hidden="true">↗</span></a>
+          <details>
             <summary>Technical notes <span aria-hidden="true">+</span></summary>
             <div class="notes">
-              <p>~25M parameters, BPE tokenizer, RoPE, GQA, RMSNorm, SwiGLU. Trained on roughly 212M tokens from 1,941 texts.</p>
+              <p>Repeatable off-device tooling generates visuals and video; the apps stay fast and offline-friendly on device. App Store listings and privacy pages live on the marketing site.</p>
             </div>
           </details>
         </div>
       </article>
 
-      <article class="project-card project-card--apps" id="bites-suite">
-        <div class="project-card__aside" aria-hidden="true"><svg data-voxel="museum" viewBox="0 0 240 180"></svg></div>
-        <div class="project-card__body">
-          <p class="project-card__tag">Bitewise Labs · iOS</p>
-          <h2>Culture in small doses</h2>
-          <p>Literature Bites, Art Bites, and Architecture Bites — three native apps for learning on a phone, plus pipelines that generate video and 3D monument renders.</p>
-          <a class="text-link" href="https://bites-suite-website.vercel.app/">Visit Bitewise <span aria-hidden="true">↗</span></a>
-          <details class="project-card__notes">
+      <article class="project" id="reading-list-lm">
+        <div class="project-art project-art--img">
+          <img src="assets/projects/reading-list.svg" width="190" height="127" alt="" loading="lazy">
+        </div>
+        <div class="project-copy">
+          <div class="project-meta">QWEN3 · LORA · PYTORCH</div>
+          <h2>Reading List Language Model</h2>
+          <p>This started as an attempt to train a language model just large enough to help me survive an ever-expanding reading list. Training a full model from scratch taught me a lot — but for the voice I wanted, fine-tuning a strong base worked better.</p>
+          <p>I continued pretraining <strong>Qwen3-0.6B</strong> with <strong>LoRA</strong> (rank&nbsp;16, α&nbsp;32, dropout&nbsp;0.05 on all attention and MLP projections) on cleaned text from that list: Russell, Bourdieu, Hofstadter, Wilde, and hundreds of other volumes and essays — about <strong>220&nbsp;million tokens</strong> of curated reading-list material (<strong>1,866</strong> documents after cleaning and deduplication). The result is a reading-list transformer you can prompt in the same spirit as the books it was trained on.</p>
+          <p class="quiet">An interactive demo is still on the way; the training stack and adapter weights live in my local research repo.</p>
+          <details>
             <summary>Technical notes <span aria-hidden="true">+</span></summary>
             <div class="notes">
-              <p>SwiftUI and Metal on device; content tooling off-device for repeatable visuals.</p>
+              <p>1024-token chunks, batch&nbsp;1 with gradient accumulation&nbsp;16 (16,384 tokens per optimizer step), cosine schedule with 3% warmup, AdamW at 2×10<sup>−4</sup>. The packed Qwen tokenizer split is ~186M train tokens plus ~4M validation; validation tracks cross-entropy perplexity (not directly comparable to the earlier from-scratch SentencePiece runs).</p>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="project" id="framelearner">
+        <div class="project-art project-art--img">
+          <img src="assets/projects/framelearner-chart.png" width="190" height="143" alt="" loading="lazy">
+        </div>
+        <div class="project-copy">
+          <div class="project-meta">MODAL LOGIC · PYTORCH</div>
+          <h2>FrameLearner</h2>
+          <p>Classical frame validity in modal logic asks whether there exists a Kripke frame that makes a formula true in every world. FrameLearner reframes that search as a <strong>minimax optimisation problem</strong>: relations between worlds become differentiable, fuzzy modal operators define a logical loss, and an adversarial valuation hunts for counterexamples while gradient descent updates the frame.</p>
+          <p>On small eight-world experiments the optimiser sometimes recovers recognisable structure — but low fuzzy loss is not a certificate of classical validity, so the project treats learning as exploratory rather than a proof procedure.</p>
+          <a class="text-link" href="https://github.com/krishivsinghal/FrameLearner">Explore FrameLearner on GitHub <span aria-hidden="true">↗</span></a>
+          <details>
+            <summary>Technical notes <span aria-hidden="true">+</span></summary>
+            <div class="notes">
+              <p>Training curves and preset frames are generated with PyTorch; the chart shown here is from the preset-A experiment in the repository.</p>
             </div>
           </details>
         </div>
