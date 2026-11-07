@@ -42,7 +42,8 @@
   const turnButton = document.querySelector('[data-world-turn]');
   if (turnButton && world) turnButton.hidden = false;
   turnButton?.addEventListener('click', () => { turns=(turns+1)%4; renderWorld(); });
-  const scenes={logic:[],path:[],books:[],museum:[],piano:[]};
+  const scenes={logic:[],path:[],books:[],museum:[],piano:[],graded:[]};
+  for(let x=0;x<4;x++)for(let y=0;y<4;y++){const h=[0,1,0,2,1,0,1,0,0,2,0,1,3,0,1,0][x*4+y];scenes.graded.push([x,y,0,'light']);for(let z=1;z<=h;z++)scenes.graded.push([x,y,z,h===3?'dark':h===2?'medium':'light']);}
   for(let x=0;x<4;x++)for(let y=0;y<4;y++)if((x+y)%2===0||x===1)scenes.logic.push([x,y,0,x===2?'dark':'light']);
   scenes.logic.push([1,1,1,'medium'],[1,1,2,'dark'],[3,3,1,'medium']);
   for(let x=0;x<5;x++)for(let y=0;y<4;y++)scenes.path.push([x,y,0,(y===2&&x<4)||(x===3&&y===1)?'medium':'light']);
